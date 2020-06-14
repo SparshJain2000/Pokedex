@@ -9,3 +9,24 @@
     border-width: 2em;
     /* color:rgb(255, 255, 0); */
 }
+
+.media {
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.list-group-item {
+    background: rgba(255, 255, 255, 0);
+}
+
+.card {
+    cursor: pointer;
+    transition: .3s ease;
+    box-shadow: 1px 1px 5px black;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 15px black;
+    transform: scale(1.1);
+    transition: .3s ease-in-out;
+    z-index: 2;
+}
