@@ -1,0 +1,11 @@
+.dark-mode {
+    background: #232323;
+}
+
+.spinner-border {
+    height: 20em;
+    width: 20em;
+    font-size: 1em;
+    border-width: 2em;
+    /* color:rgb(255, 255, 0); */
+}
