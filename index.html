@@ -21,23 +21,30 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <div class="container p-4">
-        <div class="row p-4 m-2 justify-content-center">
-            <input type="text" class='col-7 mr-1 form-group' placeholder="Enter a pokemon to know about" id='query'>
-            <button class="btn btn-primary form-group col-3 ml-1" onclick="findPokemon()">Search</button>
+    <div class=" row justify-content-center mt-4 py-2">
+        <img class='col-12 ' style='max-width:10vw' src="/public/pokeball.png" alt="pokeball" width="20vw">
+        <h1 class='col-12 mt-4 ' style="text-align:center">Pokedex</h1>
+    </div>
+    <div class="container p-4 ">
+        <div class="row p-4 m-2 justify-content-center ">
+            <input type="text " class='col-7 mr-1 form-group ' placeholder="Search a Pokemon" id='query'>
+            <button class="btn btn-primary form-group col-3 ml-1 responsive_input" onclick="findPokemon() ">Search</button>
         </div>
-        <div class="row justify-content-center p-4 m-2" id="pokemons">
-            <div class="spinner-border spinner-border-lg text-primary"></div>
+        <div class="row justify-content-center p-4 m-2 " id="pokemons">
+            <div class="spinner-border spinner-border-lg text-primary " id='loader'></div>
         </div>
-        <div class="row justify-content-center">
-            <button class="btn btn-danger px-5">View More</button>
+        <div class="row justify-content-center ">
+            <button class="btn btn-danger px-5 " onclick='morePokemons()'>View More</button>
         </div>
 
     </div>
 
     </div>
 
-
+    <script>
+        var exports = {};
+    </script>
+    <script src='/src/FitText/fittext.js'></script>
     <script src='/src/app.js'></script>
 </body>
 
