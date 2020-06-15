@@ -11,7 +11,6 @@ const closeModal = () => {
 };
 const displayPokemon = (name) => {
     getPokemon(name).then((data) => {
-        console.log(data);
         container.innerHTML +=
             `<div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -57,7 +56,6 @@ const displayPokemon = (name) => {
         </div>`;
         $('#exampleModalCenter').modal('show');
         $('.alert').remove();
-        // showPokemons(0);
     }).catch((err) => {
         $('#alert').html(`<div class="alert alert-primary alert-dismissible fade show" role = "alert" >
                             Invalid Pokemon Name
@@ -68,11 +66,9 @@ const displayPokemon = (name) => {
     });
 };
 const showDetails = (event) => {
-    console.log(event);
     displayPokemon(event.children[1].children[0].textContent);
 };
 const removeLoading = (event) => {
-    console.log("loaded");
     event.classList.remove("loading");
 };
 const morePokemons = () => {
@@ -89,15 +85,12 @@ let Pokemons = [];
 const display = (pokemons, num) => {
     let cards = "";
     for (let i = num; i < num + 20; i++) {
-        console.log(pokemons[i]);
         cards += `<div class="pok card draw-border col-md-2 col-sm-3 col-5 p-0 m-2" onclick='showDetails(this)'>
                 <img class="card-img img-fluid loading" onload='removeLoading(this)' src=${pokemons[i].image}>
                 <div class="card-header text-capitalize"><h5 class='responsive_headline'>${pokemons[i].name}</h5></div>
             </div>`;
     }
     container.innerHTML += cards;
-    fitText(document.querySelectorAll('.responsive_headline'), 1);
-    fitText(document.querySelectorAll('.responsive_input'));
 };
 const showPokemons = (num) => {
     let promises = [];
@@ -126,7 +119,6 @@ const showPokemons = (num) => {
     });
 };
 const findPokemon = () => {
-    // container.innerHTML = `<div class="spinner-border spinner-border-lg text-primary" id='loader'></div>`;
     displayPokemon(query.value.toLowerCase());
     const loader = document.getElementById("loader");
     if (loader)

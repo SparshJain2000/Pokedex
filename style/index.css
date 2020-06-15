@@ -29,8 +29,8 @@ h2 {
 }
 
 .spinner-border {
-    height: 20em;
-    width: 20em;
+    height: 50vw;
+    width: 50vw;
     font-size: 1em;
     border-width: 2em;
     /* color:rgb(255, 255, 0); */
@@ -86,4 +86,27 @@ input#query {
     border-radius: .5rem;
     /* color:rgb(25, 204, 235); */
     ;
+}
+
+@media only screen and (max-width: 600px) {
+    .body {
+        overflow: hidden;
+    }
+    .responsive_headline {
+        font-size: .75rem;
+    }
+    .responsive_input {
+        font-size: .7rem
+    }
+    .modal {
+        max-width: 99vw;
+        margin-left: auto;
+        margin-right: auto
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .responsive_headline {
+        font-size: 1.55rem;
+    }
 }
