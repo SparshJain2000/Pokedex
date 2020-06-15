@@ -13,9 +13,8 @@ const closeModal = (): void => {
     const modal:(HTMLElement|any) = document.getElementById('exampleModalCenter');
     if(modal) modal.remove();
 }
-const showDetails = (event: HTMLElement | any): void => {
-    console.log(event);
-    getPokemon(event.children[1].children[0].textContent).then((data: any) => {
+const displayPokemon = (name: string): void => {
+    getPokemon(name).then((data: any) => {
         console.log(data);
         container.innerHTML +=
             `<div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
@@ -28,27 +27,27 @@ const showDetails = (event: HTMLElement | any): void => {
                         </button>
                     </div>
                     <div class="modal-body d-flex flex-column justify-content-center">
-                        <img src="${data.sprites.front_default}" class='bg-white img-fluid mx-auto w-50' style=' border-radius: 50%; border: 5px solid #163047;  margin-top: 20px;  box-shadow: 0 10px 80px rgb(25, 204, 235);'>
-                        <h2 class='mt-5 mx-auto text-capitalize' style='font-size:2.5rem'>${data.name}</h2>
-                        <h1 class='mb-5 mx-auto text-capitalize' style='font-size:1.5rem'>BASE-EXP : ${data.base_experience}</h1>
+                        <img src="${data.sprites.front_default}" class='bg-white img-fluid mx-auto' style=' border-radius: 50%; border: 5px solid #163047;  margin-top: 20px;  box-shadow: 0 10px 80px rgb(25, 204, 235);'>
+                        <h2 class='mt-5 mx-auto text-capitalize' style='font-size:1.5rem'>${data.name}</h2>
+                        <h1 class='mb-5 mx-auto text-capitalize' style='font-size:1rem'>BASE-EXP : ${data.base_experience}</h1>
                         
-                        <div class='mb-5 row justify-content-center px-4'>
+                        <div class='mb-5 row justify-content-center px-2'>
                             <div class='col-6' style='text-align:center'> <strong><em>Abilities</em></strong> <hr class='bg-secondary'>
                                 ${data.abilities.map((ablility: any) => {
-                                    return ablility.ability.name;
-                                }).join(" , ")}
+                return ablility.ability.name;
+            }).join(" , ")}
                             </div>
                             <div class='col-6' style='text-align:center'> <strong><em>Types</em></strong> <hr class='bg-secondary'>
                                 ${data.types.map((type: any) => {
-                                    return type.type.name;
-                                }).join(" , ")}
+                return type.type.name;
+            }).join(" , ")}
                             </div>
 
                             ${data.stats.map((stat: any) => {
-                                return `<div class='col-4 my-4' style='text-align:center'><strong class='text-capitalize'>
+                return `<div class='col-4 my-4' style='text-align:center'><strong class='text-capitalize'>
                                         <em>${stat.stat.name}</em> <hr class='bg-secondary'> ${stat.base_stat}
                                 </div>`
-                            }).join("")}
+            }).join("")}
                         </div>
                         <div class='mx-auto'>
                             
@@ -61,7 +60,21 @@ const showDetails = (event: HTMLElement | any): void => {
             </div>
         </div>`;
         $('#exampleModalCenter').modal('show');
-    }).catch((err: any) => console.log(err));   
+        $('.alert').remove();
+        
+        // showPokemons(0);
+    }).catch((err: any) => {
+        $('#alert').html(`<div class="alert alert-primary alert-dismissible fade show" role = "alert" >
+                            Invalid Pokemon Name
+                            <button type = "button" class="close" data-dismiss="alert" aria-label="Close" >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`)});    
+}
+const showDetails = (event: HTMLElement | any): void => {
+    console.log(event);
+    displayPokemon(event.children[1].children[0].textContent);
+   
 }
 const removeLoading = (event: HTMLElement): void => {
     console.log("loaded");
@@ -83,7 +96,7 @@ const display = (pokemons: IPokemon[],num:number): void => {
     let cards: string = "";
     for (let i: number = num; i < num + 20; i++) { 
         console.log(pokemons[i])
-        cards += `<div class="card draw-border col-md-2 col-sm-3 col-5 p-0 m-2" onclick='showDetails(this)'>
+        cards += `<div class="pok card draw-border col-md-2 col-sm-3 col-5 p-0 m-2" onclick='showDetails(this)'>
                 <img class="card-img img-fluid loading" onload='removeLoading(this)' src=${pokemons[i].image}>
                 <div class="card-header text-capitalize"><h5 class='responsive_headline'>${pokemons[i].name}</h5></div>
             </div>`;
@@ -94,11 +107,10 @@ const display = (pokemons: IPokemon[],num:number): void => {
     
 };
 const showPokemons = (num: number): void => {
-    let promises = [];
-    // let i = 0;
+    let promises :Promise<string> []= [];
     for (let i = num; i < num + 20; i++) {
         promises.push(
-            new Promise((resolve, reject) => {
+            new Promise<string>((resolve, reject) => {
                 const pokemon: any = getPokemon(i + 1); 
                 pokemon
                     .then((data: any) => {
@@ -115,53 +127,15 @@ const showPokemons = (num: number): void => {
             })
         );
     }
-    Promise.all(promises).then((mess) => {
+    Promise.all(promises).then((mess:string[]) => {
         display(Pokemons,num);
         const loader = document.getElementById("loader");
         if (loader) loader.remove();
     });
 };
 const findPokemon = (): void => {
-    container.innerHTML = `<div class="spinner-border spinner-border-lg text-primary"></div>`;
-    const pr = getPokemon(query.value.toLowerCase());
-
-    pr.then((data: any) => {
-        const pokmon = {
-            id: data.id,
-            name: data.name,
-            image: data.sprites.front_default,
-            type: data.types.map((type: any) => type.type.name),
-            abilities: data.abilities.map((type: any) => type.ability.name),
-        };
-        console.log(pokmon);
-
-        container.innerHTML = `<div class="media w-75" >
-                <img src=${
-                    pokmon.image
-                } alt="" class="card-img img-fluid w-25 align-self-center m-1 p-2">
-                <div class="media-body py-5 p-3 row">
-                <h2 class='col-12  text-capitalize ml-4' ><em>${pokmon.name}</em></h2>
-                
-                <ul class='p-4  col-6'> <h5 style='text-align:center'>Types</h5><hr>
-                    ${pokmon.type
-                        .map(
-                            (type: string) =>
-                                `<li class='ml-5 px-3 py-2'>${type}</li>`
-                        )
-                        .join("")}
-                </ul>
-                <ul class='p-4  col-6'> <h5 style='text-align:center'>Abilities</h5><hr>
-                    ${pokmon.abilities
-                        .map(
-                            (ability: string) =>
-                                `<li class='ml-5 px-3 py-2'>${ability}</li>`
-                        )
-                        .join("")}
-                </ul>
-                </div>
-            </div>`;
-    }).catch((err: any) => {
-        container.innerHTML = `<div>Check your spelling ${err}</div>`;
-        console.log(err);
-    });
+    // container.innerHTML = `<div class="spinner-border spinner-border-lg text-primary" id='loader'></div>`;
+    displayPokemon(query.value.toLowerCase());
+    const loader = document.getElementById("loader");
+    if (loader) loader.remove();    
 };
