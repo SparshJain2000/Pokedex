@@ -3,7 +3,7 @@
 ![Netlify](https://img.shields.io/netlify/d26c6418-7fd6-42ae-b4ee-d54491201bc3?logo=netlify&style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/SparshJain2000/Pokedex?color=orange&logo=github&style=for-the-badge)
 
-![Pokedex](https://pokdex.netlify.app/) using Typescript , HTML , CSS and Bootstrap 
+[Pokedex](https://pokdex.netlify.app/) using Typescript , HTML , CSS and Bootstrap 
 
  
 ## Technologies Used -
